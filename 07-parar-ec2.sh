@@ -8,9 +8,9 @@ fi
 
 INSTANCE_NAME=$1
 
-# Obtém o ID da instância em estado "running" usando o AWS CLI
+# Obtém o ID da instância, independentemente do estado, usando o AWS CLI
 INSTANCE_ID=$(aws ec2 describe-instances \
-    --filters "Name=tag:Name,Values=$INSTANCE_NAME" "Name=instance-state-name" \
+    --filters "Name=tag:Name,Values=$INSTANCE_NAME" \
     --query "Reservations[].Instances[].InstanceId" \
     --output text)
 
