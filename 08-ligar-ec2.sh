@@ -8,22 +8,27 @@ fi
 
 INSTANCE_NAME=$1
 
-# Obtém o ID da instância usando o AWS CLI
+# Obtém o ID da instância, independentemente do estado, usando o AWS CLI
 INSTANCE_ID=$(aws ec2 describe-instances \
-    --filters "Name=tag:Name,Values=$INSTANCE_NAME" "Name=instance-state-name,Values=stopped" \
+    --filters "Name=tag:Name,Values=$INSTANCE_NAME" \
     --query "Reservations[].Instances[].InstanceId" \
     --output text)
 
 # Verifica se o ID foi encontrado
 if [ -z "$INSTANCE_ID" ]; then
-    echo "Nenhuma instância parada encontrada com o nome: $INSTANCE_NAME"
+    echo "Nenhuma instância encontrada com o nome: $INSTANCE_NAME"
     exit 1
 fi
 
 echo "ID da instância para '$INSTANCE_NAME': $INSTANCE_ID"
 
-# Obter o status da instância
-STATUS=$(aws ec2 describe-instance-status --instance-id $INSTANCE_ID --query "InstanceStatuses[0].InstanceState.Name" --output text)
+# Obtém o status da instância diretamente
+STATUS=$(aws ec2 describe-instances \
+    --instance-ids $INSTANCE_ID \
+    --query "Reservations[].Instances[].State.Name" \
+    --output text)
+
+echo "Status atual da instância $INSTANCE_ID: $STATUS"
 
 if [ "$STATUS" != "running" ]; then
     echo "A instância está parada. Iniciando..."

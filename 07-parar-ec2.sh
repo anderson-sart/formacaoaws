@@ -22,8 +22,11 @@ fi
 
 echo "ID da instância para '$INSTANCE_NAME': $INSTANCE_ID"
 
-# Obter o status da instância
-STATUS=$(aws ec2 describe-instance-status --instance-id $INSTANCE_ID --query "InstanceStatuses[0].InstanceState.Name" --output text)
+# Obtém o status da instância diretamente
+STATUS=$(aws ec2 describe-instances \
+    --instance-ids $INSTANCE_ID \
+    --query "Reservations[].Instances[].State.Name" \
+    --output text)
 
 echo "Status atual da instância $INSTANCE_ID: $STATUS"
 
