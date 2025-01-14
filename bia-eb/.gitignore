@@ -3,9 +3,6 @@
 # dependencies
 /node_modules
 
-.env
-
-bia-versao*
 
 
 #React node_modules

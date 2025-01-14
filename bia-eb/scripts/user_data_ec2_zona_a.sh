@@ -5,22 +5,18 @@ sudo yum update -y
 sudo yum install git -y
 sudo yum install docker -y
 sudo usermod -a -G docker ec2-user
-id ec2-user
+sudo usermod -a -G docker ssm-user
+id ec2-user ssm-user
 sudo newgrp docker
-
-
-#Instalar docker-compose
-wget https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m) 
-sudo mv docker-compose-$(uname -s)-$(uname -m) /usr/local/bin/docker-compose
-sudo chmod -v +x /usr/local/bin/docker-compose
 
 #Ativar docker
 sudo systemctl enable docker.service
 sudo systemctl start docker.service
 
-#Instalando pip e eb
-sudo yum install python3-pip -y
-pip3 install awsebcli --upgrade --user
+#Instalar docker compose 2
+sudo mkdir -p /usr/local/lib/docker/cli-plugins
+sudo curl -SL https://github.com/docker/compose/releases/download/v2.23.3/docker-compose-linux-x86_64 -o /usr/local/lib/docker/cli-plugins/docker-compose
+sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
 
 
 #Adicionar swap
@@ -29,3 +25,8 @@ sudo chmod 600 /swapfile
 sudo mkswap /swapfile
 sudo swapon /swapfile
 sudo echo "/swapfile swap swap defaults 0 0" >> /etc/fstab
+
+
+#Instalar node e npm
+curl -fsSL https://rpm.nodesource.com/setup_21.x | sudo bash -
+sudo yum install -y nodejs
