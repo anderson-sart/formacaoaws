@@ -6,7 +6,7 @@ services:
       - 80:8080
     environment:
       DB_USER: postgres
-      DB_PWD: yOxsznGHZWJ7CNG3PCA4
+      DB_PWD: SENHA
       DB_HOST: bia.clkakwimkm5g.us-east-1.rds.amazonaws.com
       DB_PORT: 5432
       DB_SECRET_NAME: rds!db-bb0d65ef-4012-468e-8f96-2cc3e79ca201
