@@ -22,7 +22,7 @@ fi
 
 # Obter o Image ID mais recente do Amazon Linux 2023
 image_id=$(aws ec2 describe-images \
-    --filters "Name=name,Values=amazon-linux-2023*" \
+    --filters "Name=name,Values=*linux*2023*" \
               "Name=architecture,Values=x86_64" \
               "Name=state,Values=available" \
     --owners "amazon" \
