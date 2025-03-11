@@ -5,11 +5,11 @@
 resource "aws_db_instance" "bia" {
   allocated_storage                     = 20
   allow_major_version_upgrade           = null
-  apply_immediately                     = null
+  apply_immediately                     = true
   auto_minor_version_upgrade            = true
   backup_retention_period               = 1
   backup_window                         = "04:47-05:17"
-  ca_cert_identifier                    = "rds-ca-2019"
+  ca_cert_identifier                    = "rds-ca-rsa2048-g1"
   character_set_name                    = null
   copy_tags_to_snapshot                 = true
   custom_iam_instance_profile           = null
@@ -21,7 +21,7 @@ resource "aws_db_instance" "bia" {
   domain_iam_role_name                  = null
   enabled_cloudwatch_logs_exports       = []
   engine                                = "postgres"
-  engine_version                        = "14.7"
+  engine_version                        = "16.8"
   final_snapshot_identifier             = null
   iam_database_authentication_enabled   = false
   identifier                            = "bia"
@@ -30,7 +30,7 @@ resource "aws_db_instance" "bia" {
   iops                                  = 0
   license_model                         = "postgresql-license"
   maintenance_window                    = "fri:09:41-fri:10:11"
-  manage_master_user_password           = null
+  manage_master_user_password           = true
   master_user_secret_kms_key_id         = null
   max_allocated_storage                 = 1000
   monitoring_interval                   = 0
@@ -38,9 +38,9 @@ resource "aws_db_instance" "bia" {
   multi_az                              = false
   nchar_character_set_name              = null
   network_type                          = "IPV4"
-  option_group_name                     = "default:postgres-14"
-  parameter_group_name                  = "default.postgres14"
-  password                              = null # sensitive
+  option_group_name                     = "default:postgres-16"
+  parameter_group_name                  = "default.postgres16"
+  password                              = null 
   performance_insights_enabled          = false
   performance_insights_kms_key_id       = null
   performance_insights_retention_period = 0
@@ -58,8 +58,7 @@ resource "aws_db_instance" "bia" {
   timezone                              = null
   username                              = "postgres"
   vpc_security_group_ids                = [aws_security_group.bia_db.id]
-  db_subnet_group_name                  = aws_db_subnet_group.bia.name
-
+  db_subnet_group_name = aws_db_subnet_group.bia.name
 }
 
 resource "aws_db_subnet_group" "bia" {
